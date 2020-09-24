@@ -1,4 +1,5 @@
 ﻿import React, { Component } from 'react';
+import axios from 'axios';
 
 export class Rooms extends Component {
     constructor(props) {
@@ -10,6 +11,17 @@ export class Rooms extends Component {
         }
     }
 
+    componentDidMount() {
+        this.populateRoomsData();
+    }
+
+    populateRoomsData() {
+        axios.get("api/Rooms/").then(result => {
+            const response = result.data;
+            this.setState({rooms: response, loading: false});
+        })
+    }
+
     renderAllRoomsTable(rooms) {
         return (
             <table className="table table-striped">
@@ -18,14 +30,20 @@ export class Rooms extends Component {
                         <th>Head</th>
                         <th>Width</th>
                         <th>Length</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>E</td>
-                        <td>1</td>
-                        <td>1</td>
-                    </tr>
+                    {
+                        rooms.map(room => {
+                        <tr key={room.id}>
+                            <td>{room.name}</td>
+                            <td>{room.width}</td>
+                            <td>{room.length}</td>
+                            <td>-</td>
+                        </tr>
+                        })
+                    }
                 </tbody>
             </table>
         );
