@@ -28,6 +28,8 @@ namespace WebApplication2
             services.AddDbContext<MvcRoomContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("MvcRoomContext")));
 
+            services.AddTransient<IRoomService, IRoomService>();
+
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
